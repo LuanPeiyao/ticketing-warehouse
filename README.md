@@ -27,11 +27,11 @@
 
 ## 当前进度
 
-已完成初步业务设计、Docker + PostgreSQL 开发环境部署与验证。业务表与 API 尚未实现。
+已完成 Docker + PostgreSQL 环境、五张基础表和场次座位库存表。已提供可重复执行的演示数据；锁座、订单、支付、退款、电子票与 API 后续实现。
 
 ## PostgreSQL 开发环境
 
-当前 Compose 只部署数据库；本阶段不创建业务表。Spark、Hive Metastore 和 Airflow 后续按阶段接入。
+当前 Compose 只启动数据库服务；基础表通过独立 SQL 迁移创建。Spark、Hive Metastore 和 Airflow 后续按阶段接入。
 
 ### 环境要求
 
@@ -78,7 +78,7 @@ SHOW timezone;
 \dt
 ```
 
-`\dt` 当前应提示没有关系，因为业务表尚未创建。输入 `\q` 退出客户端。
+仅启动容器时尚无业务表；执行 001 后有五张表，执行 002 后有六张表。输入 `\q` 退出客户端。
 如果修改了 `.env` 中的账号或库名，连接命令也应相应调整。
 
 从 VS Code 的数据库扩展或其他桌面客户端连接时使用：
@@ -124,6 +124,38 @@ PostgreSQL 文件存放在命名数据卷 `ticketing-warehouse_pg_data` 中。
 - PostgreSQL 17.11，数据库 `ticketing`，数据库时区 UTC。
 - 本机 `127.0.0.1:15432` 可连接，容器内 TCP 密码认证查询通过。
 - 删除并重建本项目容器后，数据库集群标识与临时测试注释仍保留，数据卷持久化通过。
-- 测试注释已恢复，`public` 中业务表数量为 0。
+- 环境安装时测试注释已恢复，当时 `public` 中业务表数量为 0；此后基础表迁移新增五张表。
 
 AMD64 与其他操作系统尚未进行运行验证。
+
+## 第一阶段基础表
+
+- 建表脚本：[`migrations/001_core_tables.sql`](migrations/001_core_tables.sql)。
+- 字段字典与学习说明：[`docs/database/01_core_tables.md`](docs/database/01_core_tables.md)。
+- 约束验证：[`tests/sql/001_core_tables.sql`](tests/sql/001_core_tables.sql)。
+
+首次部署到没有业务表的新数据库时，在 macOS / Linux 项目根目录执行一次：
+
+```bash
+docker compose exec -T postgres psql -X -U ticketing_admin -d ticketing -v ON_ERROR_STOP=1 < migrations/001_core_tables.sql
+```
+
+已执行迁移的数据库不重复建表；后续变更新增迁移文件。Windows 操作方式见字段字典。
+
+2026-10-21 已在本地 PostgreSQL 17.11 验证：五张表创建成功，8 项集成场景通过，验证数据回滚后各表均为 0 行。
+
+## 第二阶段：场次库存与样例
+
+先按顺序执行 001、002 迁移，再按需加载演示数据；本地开发库已执行，不重复建表。
+macOS / Linux 新部署执行：
+
+```bash
+docker compose exec -T postgres psql -X -U ticketing_admin -d ticketing -v ON_ERROR_STOP=1 < migrations/002_session_seat.sql
+docker compose exec -T postgres psql -X -U ticketing_admin -d ticketing -v ON_ERROR_STOP=1 < seeds/001_ticketing_demo.sql
+```
+
+- [场次库存字段、组合外键和查询说明](docs/database/02_session_seat.md)。
+- [库存约束验证脚本](tests/sql/002_session_seat.sql)。
+- 当前库存只支持 AVAILABLE；订单阶段再引入锁座字段及状态一致性约束。
+- 演示数据包括一个主办方、一个场馆、两个物理座位、一个活动、两个场次、四条库存。
+- 2026-10-21 本地验证：6 项库存场景通过；测试数据回滚；样例重复运行未新增重复记录。
