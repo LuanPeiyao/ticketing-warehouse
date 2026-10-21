@@ -1,0 +1,28 @@
+name: ticketing-warehouse
+
+services:
+  postgres:
+    image: postgres:17.11-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ticketing}
+      POSTGRES_USER: ${POSTGRES_USER:-ticketing_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请先复制 .env.example 为 .env 并设置数据库密码}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-15432}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    shm_size: 128mb
+    command: ["postgres", "-c", "timezone=UTC"]
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  pg_data:

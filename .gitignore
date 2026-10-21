@@ -221,3 +221,9 @@ __marimo__/
 
 # macOS 系统文件
 .DS_Store
+
+# Local environment variants and generated data
+.env.*
+!.env.example
+backups/
+data/generated/
