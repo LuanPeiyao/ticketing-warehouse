@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-当前开发分支已完成 Docker + PostgreSQL、十二张业务表、下单锁座、取消、超时释放、模拟支付、电子票、整单退款与命令行演示。
+已完成 Docker + PostgreSQL、十二张业务表、下单锁座、取消、超时释放、模拟支付、电子票、整单退款与命令行演示。
 提供迁移登记、可重复样例、受限应用数据库账号，以及真实 PostgreSQL 双连接并发验证。
 FastAPI 与离线数仓在后续阶段实现。第一版不包含检票与核销；支付和退款为本地同步模拟，不发生真实资金交易。
 
@@ -14,7 +14,7 @@ FastAPI 与离线数仓在后续阶段实现。第一版不包含检票与核销
 无需在本机安装 Python、PostgreSQL 或 psql。
 
 ```bash
-git clone --branch codex/payment-refund https://github.com/xiaoyeZh/ticketing-warehouse.git
+git clone https://github.com/xiaoyeZh/ticketing-warehouse.git
 cd ticketing-warehouse
 cp .env.example .env
 docker compose up -d --wait --wait-timeout 120 postgres
@@ -23,7 +23,7 @@ docker compose run --rm db-admin demo
 docker compose run --rm app catalog
 ```
 
-私有仓库克隆需要 GitHub 身份验证。当前支付退款功能位于 `codex/payment-refund`；该分支推送后可使用上述克隆命令。已有本地仓库使用 `git switch codex/payment-refund`。`main` 保留上一阶段版本，功能验证后通过 Pull Request 合并。
+私有仓库克隆需要 GitHub 身份验证。`main` 提供已验证的阶段版本，包含模拟支付、电子票与整单退款；新功能在独立开发分支上实现，完成验证后通过 Pull Request 合并。
 
 已有 `.env` 时保留原文件，不再次复制覆盖。新增应用密码配置见 `.env.example`；本次本地开发已自动补齐。
 `.env` 存放个人配置，不提交 Git、不进入 Docker 构建上下文。
