@@ -1,0 +1,73 @@
+{
+  "orders": [
+    {
+      "order_id": 9,
+      "status": "REFUNDED",
+      "amount": 220.0,
+      "session_id": 13
+    },
+    {
+      "order_id": 10,
+      "status": "CANCELLED",
+      "amount": 100.0,
+      "session_id": 13
+    }
+  ],
+  "items": [
+    {
+      "order_id": 9,
+      "seat_code": "A1",
+      "unit_price": 100.0
+    },
+    {
+      "order_id": 9,
+      "seat_code": "A2",
+      "unit_price": 120.0
+    },
+    {
+      "order_id": 10,
+      "seat_code": "A1",
+      "unit_price": 100.0
+    }
+  ],
+  "tickets": [
+    {
+      "order_id": 9,
+      "status": "REFUNDED"
+    },
+    {
+      "order_id": 9,
+      "status": "REFUNDED"
+    }
+  ],
+  "inventory": [
+    {
+      "session_seat_id": 19,
+      "status": "AVAILABLE",
+      "locked_order_id": null,
+      "sold_order_id": null
+    },
+    {
+      "session_seat_id": 20,
+      "status": "AVAILABLE",
+      "locked_order_id": null,
+      "sold_order_id": null
+    }
+  ],
+  "active_qa_sessions": 0,
+  "migrations": 5,
+  "remaining_test_databases": 0,
+  "browser_checks": [
+    "登录失败提示和成功登录",
+    "双座位金额合计 220.00",
+    "下单后倒计时与按钮立即可用",
+    "模拟支付后两张电子票有效",
+    "整单退款后两张票失效",
+    "相同库存重新下单并取消",
+    "订单状态筛选",
+    "活动搜索空状态",
+    "退出后不显示个人订单",
+    "1280/390/320 宽度检查，页面无横向溢出",
+    "移除品牌 logo 与名称，蓝色主题"
+  ]
+}

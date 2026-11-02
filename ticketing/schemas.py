@@ -91,6 +91,9 @@ class RefundInput(Input):
 
 
 class OrderSummary(BaseModel):
+    activity_title: str
+    venue_name: str
+    session_start_time: datetime
     order_id: int
     order_no: str
     user_id: int
@@ -105,6 +108,7 @@ class OrderSummary(BaseModel):
 
 
 class Item(BaseModel):
+    seat_code: str
     item_id: int
     session_seat_id: int
     unit_price: Decimal

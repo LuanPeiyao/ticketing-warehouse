@@ -148,4 +148,4 @@ docker compose run --rm --build tests
 
 Conda 开发先执行 `python -m pip install -r requirements.txt`，再按 [Conda 文档](../development/conda.md) 设置本机数据库连接变量。
 随后可运行 `python -m uvicorn ticketing.api:app --host 127.0.0.1 --port 8001`，避免与容器映射的 8000 冲突。
-当前不包含前端页面、真实支付、检票或数仓；下一阶段可在这些接口上扩展。
+根路径 `/` 已提供轻量购票前端，操作说明见 [网页使用说明](../web/06_web.md)。当前不包含真实支付、检票或数仓。

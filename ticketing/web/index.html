@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f7fc">
+  <meta name="description" content="发现活动、自由选座，体验从购票到退款的完整流程。">
+  <title>活动与票务 · 发现下一场精彩</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script type="module" src="/assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳转到内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="main-nav" aria-label="主导航"><a href="#discover" data-nav="discover">发现活动</a><a href="#orders" data-nav="orders">我的订单</a></nav>
+      <div class="account-actions"><span id="account-name" hidden></span><button class="button button-small button-dark" id="login-button">登录 / 注册 <span aria-hidden="true">↗</span></button><button class="text-button" id="logout-button" hidden>退出</button></div>
+    </div>
+  </header>
+  <main id="main-content" class="page-shell">
+    <div class="demo-note"><span class="status-dot" aria-hidden="true"></span>票务体验版<span class="note-divider">/</span>支付与退款均为模拟操作</div>
+    <section id="discover-view" aria-labelledby="discover-title">
+      <div class="hero">
+        <div class="hero-copy"><p class="eyebrow">FIND YOUR NEXT MOMENT</p><h1 id="discover-title">下一场精彩，<br>就等你<span class="highlight">入场。</span></h1><p class="hero-description">从挑选一场活动开始，<br class="mobile-break">为生活留一个值得赴约的时刻。</p><a class="hero-link" href="#activity-list">看看即将发生的精彩 <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><div class="art-spark">✳</div><div class="hero-ticket"><div class="ticket-topline"><span>LIVE / IN PERSON</span><span>ADMIT ONE</span></div><div class="ticket-main">GOOD<br>TIMES<span class="ticket-star">✦</span></div><div class="ticket-bottom"><span>下一站，现场见。</span><span class="ticket-bars"></span></div><div class="ticket-stub">YOUR NEXT LIVE MOMENT <span>↗</span></div></div><span class="art-caption">MAKE ROOM FOR A LITTLE JOY</span></div>
+      </div>
+      <section id="activity-list" class="activities-section" aria-labelledby="activities-title">
+        <div class="section-heading"><div><p class="eyebrow">UPCOMING EVENTS</p><h2 id="activities-title">即将开场 <span id="activity-count" class="count-label"></span></h2></div><div class="catalog-controls"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">搜索活动或场馆</span><input type="search" id="event-search" placeholder="搜索活动或场馆" maxlength="100"></label><button class="icon-button" id="refresh-catalog" aria-label="刷新活动">↻</button></div></div>
+        <div id="catalog-feedback" role="status"></div><div id="events" class="event-list" aria-live="polite"></div>
+        <div class="load-more"><button id="more-events" class="button button-outline" hidden>加载更多场次</button></div>
+      </section>
+      <div class="experience-strip"><div><span class="step-number">01</span><span>找到心动的活动</span></div><span class="strip-arrow" aria-hidden="true">→</span><div><span class="step-number">02</span><span>选一张喜欢的座位</span></div><span class="strip-arrow" aria-hidden="true">→</span><div><span class="step-number">03</span><span>带上期待，准备出发</span></div></div>
+    </section>
+    <section id="orders-view" hidden aria-labelledby="orders-title">
+      <div class="orders-heading"><div><p class="eyebrow">YOUR NEXT MOMENT</p><h1 id="orders-title">我的订单<span class="heading-dot">.</span></h1><p class="muted">每一次期待，都有迹可循。</p></div><button class="button button-outline" id="refresh-orders">刷新订单 <span aria-hidden="true">↻</span></button></div>
+      <div id="order-filters" class="filter-tabs" aria-label="订单状态筛选"><button data-filter="ALL" aria-pressed="true">全部订单</button><button data-filter="PENDING" aria-pressed="false">待支付</button><button data-filter="PAID" aria-pressed="false">已支付</button><button data-filter="REFUNDED" aria-pressed="false">已退款</button><button data-filter="CLOSED" aria-pressed="false">已关闭</button></div>
+      <div id="orders-feedback" role="status"></div><div id="orders-list" class="orders-list" aria-live="polite"></div><div class="load-more"><button id="more-orders" class="button button-outline" hidden>加载更多订单</button></div>
+    </section>
+  </main>
+  <footer class="site-footer"><a class="footer-brand" href="#discover">回到活动<span>一起，去现场。</span></a><p>每一张票，都通往一个值得期待的现场。</p><span class="footer-tag">本地演示 · 无真实扣款</span></footer>
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <dialog id="auth-dialog" class="dialog auth-dialog" aria-labelledby="auth-title">
+    <button class="close-button" data-close="auth-dialog" aria-label="关闭登录窗口">×</button><div class="dialog-eyebrow">WELCOME TO YOUR NEXT MOMENT</div><h2 id="auth-title">很高兴，在这里遇见你。</h2><p id="auth-context" class="muted">登录后，开启你的下一场期待。</p>
+    <div class="auth-tabs" aria-label="登录或注册"><button id="auth-login-tab" aria-pressed="true">登录</button><button id="auth-register-tab" aria-pressed="false">注册新账号</button></div>
+    <form id="auth-form"><label id="name-field" hidden>怎么称呼你<input id="auth-name" name="display_name" maxlength="100" autocomplete="nickname" placeholder="你的显示名称"></label><label>邮箱<input id="auth-email" name="email" type="email" required maxlength="254" autocomplete="username" placeholder="you@example.com"></label><label>密码<input id="auth-password" name="password" type="password" required maxlength="128" autocomplete="current-password" placeholder="请输入密码"></label><p id="password-hint" class="field-hint" hidden>密码长度为 10～128 个字符。</p><p id="auth-error" class="form-error" role="alert" hidden></p><button id="auth-submit" type="submit" class="button button-dark button-full">登录</button></form><p class="auth-footnote">登录状态仅保留在当前页面，刷新后请重新登录。</p>
+  </dialog>
+
+  <dialog id="seat-dialog" class="dialog seat-dialog" aria-labelledby="seat-title">
+    <button class="close-button" data-close="seat-dialog" aria-label="关闭选座窗口">×</button><div class="seat-layout"><div class="seat-main"><p class="eyebrow">CHOOSE YOUR SPOT</p><h2 id="seat-title">选择座位</h2><p id="seat-venue" class="muted"></p><label class="session-label">演出场次<select id="session-select"></select></label><div class="seat-stage"><span>舞 台 / STAGE</span></div><div id="seat-feedback" role="status"></div><div id="seat-map" class="seat-map" aria-label="座位选择"></div><div class="seat-legend"><span><i class="legend-seat available"></i>可选</span><span><i class="legend-seat selected"></i>已选</span><span><i class="legend-seat unavailable"></i>已占用</span></div><button class="text-button seat-refresh" id="refresh-seats">刷新座位状态 ↻</button></div><aside class="selection-summary"><p class="eyebrow">YOUR SELECTION</p><h3>属于你的座位</h3><div id="selected-seats" class="selected-seats"></div><div class="selection-total"><span>订单合计</span><strong id="selection-total">¥0.00</strong></div><p class="selection-tip">下单后会暂时为你保留座位，请在订单倒计时结束前完成模拟支付。</p><p id="reserve-error" class="form-error" role="alert" hidden></p><button class="button button-dark button-full" id="reserve-button" disabled>请先选择座位</button></aside></div>
+  </dialog>
+
+  <dialog id="detail-dialog" class="dialog detail-dialog" aria-labelledby="detail-title"><button class="close-button" data-close="detail-dialog" aria-label="关闭订单详情">×</button><div id="order-detail"></div></dialog>
+  <dialog id="action-dialog" class="dialog action-dialog" aria-labelledby="action-title"><button class="close-button" data-close="action-dialog" aria-label="关闭确认窗口">×</button><p class="eyebrow" id="action-eyebrow">ONE MORE STEP</p><h2 id="action-title"></h2><div id="action-description"></div><form id="action-form"><label id="refund-reason-field" hidden>退款原因<textarea id="refund-reason" name="reason" maxlength="200" rows="3" placeholder="例如：行程调整"></textarea></label><p id="action-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button button-outline" data-close="action-dialog">再想一想</button><button type="submit" id="action-submit" class="button button-dark">确认</button></div></form></dialog>
+  <noscript><p class="noscript-message">请启用浏览器 JavaScript，使用活动查询和购票功能。接口文档仍可通过 /docs 访问。</p></noscript>
+</body>
+</html>

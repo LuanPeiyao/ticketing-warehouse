@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-已完成 Docker + PostgreSQL、十四张业务与认证表、下单锁座、模拟支付、出票、退款、FastAPI 接口和注册登录。CLI 与 HTTP 接口均可演示完整交易流程。
+已完成 Docker + PostgreSQL、十四张业务与认证表、下单锁座、模拟支付、出票、退款、FastAPI 接口和注册登录。已提供蓝色主题的轻量购票页面，CLI、HTTP 和网页均可演示交易流程。
 提供迁移登记、可重复样例、受限应用数据库账号，以及真实 PostgreSQL 双连接并发验证。
 离线数仓在后续阶段实现。第一版不包含检票与核销；支付和退款为本地同步模拟，不发生真实资金交易。
 
@@ -14,7 +14,7 @@
 无需在本机安装 Python、PostgreSQL 或 psql。
 
 ```bash
-git clone --branch codex/api https://github.com/xiaoyeZh/ticketing-warehouse.git
+git clone --branch codex/web https://github.com/xiaoyeZh/ticketing-warehouse.git
 cd ticketing-warehouse
 cp .env.example .env
 docker compose up -d --wait --wait-timeout 120 postgres
@@ -23,9 +23,10 @@ docker compose run --rm db-admin demo
 docker compose --profile workers up -d --wait --wait-timeout 120 api reservation-worker
 ```
 
-私有仓库克隆需要 GitHub 身份验证。API 当前位于 `codex/api` 开发分支，推送后可使用上述克隆命令；已有本地仓库切换到该分支。`main` 保留已验证的上一阶段版本。
+私有仓库克隆需要 GitHub 身份验证。轻量前端当前位于 `codex/web`，基于已完成的 `codex/api` 创建；推送后可使用上述克隆命令。已有本地仓库切换到该分支。`main` 保留已验证的上一阶段版本。
 
-启动后打开 http://127.0.0.1:8000/docs。先注册新账号，再登录，复制 access_token 并通过页面 Authorize 授权，即可调用自己的订单接口。详细步骤见 [FastAPI 使用说明](docs/api/05_fastapi.md)。
+启动后打开 http://127.0.0.1:8000/，通过页面注册登录、选场次和座位、下单、模拟支付、查看电子票及退款。
+网页操作见 [前端使用说明](docs/web/06_web.md)。原有接口文档位于 http://127.0.0.1:8000/docs。
 
 已有 `.env` 时保留原文件，不再次复制覆盖。新增应用密码配置见 `.env.example`；本次本地开发已自动补齐。
 `.env` 存放个人配置，不提交 Git、不进入 Docker 构建上下文。
@@ -40,7 +41,7 @@ docker compose --profile workers up -d --wait --wait-timeout 120 api reservation
 | Compose 服务 | 作用 | 运行方式 |
 |---|---|---|
 | `postgres` | PostgreSQL 17.11 | 默认常驻，命名卷持久化 |
-| `api` | FastAPI HTTP 接口、注册登录和 Swagger 文档 | 本机 127.0.0.1:8000 |
+| `api` | 购票网页、FastAPI 接口、注册登录和 Swagger 文档 | 本机 127.0.0.1:8000 |
 | `db-admin` | 迁移与演示数据初始化 | 按需运行，使用初始化管理员 |
 | `app` | 下单、模拟支付、退款、查询和清理 CLI | 按需运行，使用 ticketing_app |
 | `reservation-worker` | 每五秒处理过期订单 | workers profile，可常驻 |
@@ -48,6 +49,21 @@ docker compose --profile workers up -d --wait --wait-timeout 120 api reservation
 
 Python 镜像固定为 3.12.16-slim-bookworm；Psycopg 3.2.13。
 应用数据库账号没有建表、删除交易记录或修改用户角色权限。HTTP 订单接口从登录令牌识别用户，不能指定他人的用户编号。CLI 保留为本地教学工具。
+
+## 轻量购票页面
+
+首页提供可售活动、场次搜索和真实座位选择；“我的订单”提供倒计时、取消、模拟支付、电子票和整单退款。
+页面采用蓝色主题，暂不设置品牌名称或 logo，支持桌面和手机访问。
+不需要前端构建、Node 运行环境或额外容器，也不依赖在线字体和图标脚本。
+登录凭据仅保留在当前页面内存，刷新后需重新登录；主动退出会撤销会话。
+
+已有 API 环境升级前端，只需：
+
+```bash
+docker compose up -d --build --wait --wait-timeout 120 api
+```
+
+没有新增迁移，原有数据与接口保留。详细操作见 [前端说明](docs/web/06_web.md)。
 
 ## HTTP 接口与登录
 
@@ -190,6 +206,7 @@ POSTGRES_* 初始化账号和库名只在首次创建数据卷时生效，之后
 - [订单事务、双连接并发与部署说明](docs/database/03_booking_transactions.md)
 - [模拟支付、电子票、整单退款与升级演示](docs/database/04_payment_refund.md)
 - [FastAPI 接口、登录、权限与 HTTP 演示](docs/api/05_fastapi.md)
+- [轻量前端、网页购票与响应式布局](docs/web/06_web.md)
 
 已在 macOS / Apple Silicon ARM64 验证。AMD64 与其他宿主系统尚未进行运行验证。
 首次拉取官方镜像遇到连接中断时，可检查 Docker Desktop 网络或代理后重试构建。

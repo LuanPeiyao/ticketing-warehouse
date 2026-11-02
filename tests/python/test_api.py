@@ -294,3 +294,35 @@ class APIIntegration(BookingFixture):
         with self.assertRaises(psycopg.errors.InsufficientPrivilege):
             with self.runtime() as conn:
                 conn.execute('UPDATE app_user SET role=\'ADMIN\'')
+
+    def test_web_entry_assets_and_api_paths_are_independent(self):
+        home=self.client.get('/')
+        self.assertEqual(home.status_code,200)
+        self.assertIn('text/html',home.headers['content-type'])
+        self.assertIn('活动与票务',home.text)
+        self.assertIn("script-src 'self'",home.headers['content-security-policy'])
+        self.assertEqual(home.headers['x-content-type-options'],'nosniff')
+        for path in ('/assets/styles.css','/assets/app.js','/assets/lib.mjs'):
+            self.assertEqual(self.client.get(path).status_code,200,path)
+        self.assertEqual(self.client.get('/assets/mark.svg').status_code,404)
+        self.assertEqual(self.client.get('/assets/%2e%2e/auth.py').status_code,404)
+        self.assertEqual(self.client.get('/docs').status_code,200)
+        self.assertEqual(self.client.get('/health/ready').status_code,200)
+        self.assertEqual(self.client.get('/orders').status_code,401)
+
+    def test_order_display_metadata_remains_visible_when_catalog_closes(self):
+        self.register()
+        headers=self.headers()
+        order=self.reserve_api(headers=headers)
+        self.assertEqual(order['activity_title'],'事务测试活动')
+        self.assertEqual(order['venue_name'],'事务测试场馆')
+        self.assertEqual([item['seat_code'] for item in order['items']],['A1','A2'])
+        self.assertIsNotNone(order['session_start_time'])
+        with self.admin() as conn:
+            conn.execute("UPDATE activity SET status='ARCHIVED' WHERE activity_id=%s",(self.activity,))
+        self.assertEqual(self.client.get('/sessions',params={'activity_id':self.activity}).json(),[])
+        detail=self.client.get(f"/orders/{order['order_id']}",headers=headers).json()
+        self.assertEqual(detail['activity_title'],order['activity_title'])
+        summary=self.client.get('/orders',headers=headers).json()[0]
+        self.assertEqual(summary['activity_title'],order['activity_title'])
+        self.assertEqual(summary['session_start_time'],order['session_start_time'])

@@ -1,16 +1,18 @@
 """FastAPI 网络入口：同步数据库调用在线程池执行，复用既有短事务服务。"""
 from typing import Annotated
+from pathlib import Path as FilePath
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException, Path, Query, Response
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import psycopg
 
 from .auth import AuthError, AuthService
-from .booking import BookingError, BookingService, RequestConflict, SeatUnavailable
+from .booking import BookingError, BookingService, RequestConflict, SeatUnavailable, ORDER_VIEW_SQL
 from .db import connect
 from .payment import PaymentService
 from . import schemas as s
@@ -85,6 +87,25 @@ def create_app(connect_factory=connect):
             raise HTTPException(404, '订单不存在')
         return user['user_id']
 
+    web_root = FilePath(__file__).resolve().parent / 'web'
+    app.mount('/assets', StaticFiles(directory=web_root), name='web-assets')
+
+    @app.middleware('http')
+    async def web_headers(request, call_next):
+        response = await call_next(request)
+        if request.url.path == '/' or request.url.path.startswith('/assets/'):
+            response.headers['Content-Security-Policy'] = ("default-src 'self'; script-src 'self'; style-src 'self'; "
+                "img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; "
+                "frame-ancestors 'none'; form-action 'self'; object-src 'none'")
+            response.headers['X-Content-Type-Options'] = 'nosniff'
+            response.headers['Referrer-Policy'] = 'same-origin'
+            response.headers['Cache-Control'] = 'no-cache'
+        return response
+
+    @app.get('/', include_in_schema=False)
+    def web_home():
+        return FileResponse(web_root / 'index.html', media_type='text/html')
+
     @app.get('/health/live', tags=['健康检查'])
     def live():
         return {'status': 'ok'}
@@ -151,7 +172,7 @@ def create_app(connect_factory=connect):
     @app.get('/orders', response_model=list[s.OrderSummary], tags=['订单'])
     def orders(user: Annotated[dict, Depends(current_user)], limit: Limit = 20, offset: Offset = 0):
         with connect_factory() as conn:
-            return conn.execute('SELECT * FROM booking_order WHERE user_id=%s ORDER BY order_id DESC LIMIT %s OFFSET %s',
+            return conn.execute(ORDER_VIEW_SQL + ' WHERE o.user_id=%s ORDER BY o.order_id DESC LIMIT %s OFFSET %s',
                                 (user['user_id'], limit, offset)).fetchall()
 
     @app.get('/orders/{order_id}', response_model=s.Order, tags=['订单'])
