@@ -8,10 +8,11 @@ import psycopg
 
 from .booking import BookingError, BookingService
 from .db import connect
+from .payment import PaymentService
 
 
 def main():
-    parser = argparse.ArgumentParser(description="票务订单、锁座与过期释放演示")
+    parser = argparse.ArgumentParser(description="票务订单、模拟支付、电子票与整单退款演示")
     subs = parser.add_subparsers(dest="command", required=True)
     subs.add_parser("init", help="管理员：应用迁移并配置受限应用账号")
     demo = subs.add_parser("demo", help="管理员：准备未来场次与两个普通用户")
@@ -27,6 +28,16 @@ def main():
         command = subs.add_parser(name)
         command.add_argument("--user", type=int, required=True)
         command.add_argument("--order", type=int, required=True)
+    for name in ("pay", "refund"):
+        command = subs.add_parser(name, help="本地模拟支付" if name == "pay" else "开场前整单全额模拟退款")
+        command.add_argument("--user", type=int, required=True)
+        command.add_argument("--order", type=int, required=True)
+        command.add_argument("--request-id", help="UUID；重试同一操作使用原值")
+        command.add_argument("--outcome", choices=("SUCCEEDED", "FAILED"), default="SUCCEEDED")
+        if name == "pay":
+            command.add_argument("--amount", required=True, help="必须与订单总额一致，例如 220.00")
+        else:
+            command.add_argument("--reason", required=True, help="退款原因，1～200 字符")
     expire = subs.add_parser("expire", help="手动清理一批已过期待支付订单")
     expire.add_argument("--limit", type=int, default=100)
     worker = subs.add_parser("worker", help="周期执行过期清理")
@@ -62,6 +73,12 @@ def main():
             result = service.cancel(args.user, args.order)
         elif args.command == "order":
             result = service.get(args.user, args.order)
+        elif args.command == "pay":
+            result = PaymentService().pay(args.user, args.order, args.amount,
+                                         request_id=args.request_id, outcome=args.outcome)
+        elif args.command == "refund":
+            result = PaymentService().refund(args.user, args.order, reason=args.reason,
+                                            request_id=args.request_id, outcome=args.outcome)
         elif args.command == "expire":
             result = {"expired_order_ids": service.expire(limit=args.limit)}
         else:

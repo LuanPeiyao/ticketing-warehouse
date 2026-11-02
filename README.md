@@ -4,9 +4,9 @@
 
 ## 当前进度
 
-已完成 Docker + PostgreSQL、九张业务表、下单锁座、取消、超时释放与命令行演示。
+当前开发分支已完成 Docker + PostgreSQL、十二张业务表、下单锁座、取消、超时释放、模拟支付、电子票、整单退款与命令行演示。
 提供迁移登记、可重复样例、受限应用数据库账号，以及真实 PostgreSQL 双连接并发验证。
-支付、电子票、退款、FastAPI 与离线数仓在后续阶段实现。第一版不包含检票与核销。
+FastAPI 与离线数仓在后续阶段实现。第一版不包含检票与核销；支付和退款为本地同步模拟，不发生真实资金交易。
 
 ## 本地快速部署
 
@@ -14,7 +14,7 @@
 无需在本机安装 Python、PostgreSQL 或 psql。
 
 ```bash
-git clone https://github.com/xiaoyeZh/ticketing-warehouse.git
+git clone --branch codex/payment-refund https://github.com/xiaoyeZh/ticketing-warehouse.git
 cd ticketing-warehouse
 cp .env.example .env
 docker compose up -d --wait --wait-timeout 120 postgres
@@ -23,7 +23,7 @@ docker compose run --rm db-admin demo
 docker compose run --rm app catalog
 ```
 
-私有仓库克隆需要 GitHub 身份验证。`main` 提供已验证的阶段版本；新功能在独立开发分支上实现，完成验证后通过 Pull Request 合并。
+私有仓库克隆需要 GitHub 身份验证。当前支付退款功能位于 `codex/payment-refund`；该分支推送后可使用上述克隆命令。已有本地仓库使用 `git switch codex/payment-refund`。`main` 保留上一阶段版本，功能验证后通过 Pull Request 合并。
 
 已有 `.env` 时保留原文件，不再次复制覆盖。新增应用密码配置见 `.env.example`；本次本地开发已自动补齐。
 `.env` 存放个人配置，不提交 Git、不进入 Docker 构建上下文。
@@ -39,7 +39,7 @@ docker compose run --rm app catalog
 |---|---|---|
 | `postgres` | PostgreSQL 17.11 | 默认常驻，命名卷持久化 |
 | `db-admin` | 迁移与演示数据初始化 | 按需运行，使用初始化管理员 |
-| `app` | 下单、取消、查询、手动清理 CLI | 按需运行，使用 ticketing_app |
+| `app` | 下单、模拟支付、退款、查询和清理 CLI | 按需运行，使用 ticketing_app |
 | `reservation-worker` | 每五秒处理过期订单 | workers profile，可常驻 |
 | `tests` | 独立临时数据库中的集成测试 | 按需运行 |
 
@@ -75,17 +75,44 @@ docker compose logs --tail=20 reservation-worker
 docker compose stop reservation-worker
 ```
 
+## 模拟支付与退款
+
+先下单，再用订单输出的总额支付。下列中文占位符要替换为实际值；支付和退款分别使用独立的 UUID，重试时复用原值。
+
+```bash
+docker compose run --rm app pay --user 用户编号 --order 订单编号 --amount 订单总额 --request-id 支付UUID
+docker compose run --rm app order --user 用户编号 --order 订单编号
+docker compose run --rm app refund --user 用户编号 --order 订单编号 --reason "行程改变" --request-id 退款UUID
+```
+
+支付成功后每个订单明细生成一张 VALID 电子票，库存进入 SOLD。
+开场前支持整单全额退款，成功后票变为 REFUNDED，库存恢复 AVAILABLE，可重新购买。
+支付和退款命令加 `--outcome FAILED` 可模拟失败；失败尝试保留，原订单与库存状态保持，成功重试使用新的 UUID。
+`order` 输出支付尝试、票、退款尝试和状态历史；模拟失败需要查看业务状态，CLI 退出码 0 表示操作已记录。
+详见 [支付退款学习与部署说明](docs/database/04_payment_refund.md)。
+
+已有第三阶段环境升级：
+
+```bash
+docker compose stop reservation-worker
+docker compose run --rm --build db-admin
+docker compose --profile workers up -d --build reservation-worker
+```
+
+保留现有 `.env` 和命名卷；迁移会扩展表和权限，不清空数据。
+
 ## 迁移和样例
 
 `db-admin` 按顺序执行 migrations，并在 schema_migration 保存校验值。
 重复运行跳过已执行版本；不能通过修改旧迁移来更新已有库，应新增迁移。
-早期已经手工执行 001/002 的本地库会先核对已知结构，再登记旧版本并应用 003；不重建旧表。
+早期已经手工执行 001/002 的本地库会先核对已知结构，再登记旧版本并依次应用后续迁移；不重建旧表。
 
 | 迁移 | 内容 |
 |---|---|
 | 001 | 用户、场馆、物理座位、活动、场次 |
 | 002 | 场次库存与独立定价 |
 | 003 | 订单、明细、状态历史、库存锁座关联 |
+| 004 | 模拟支付、电子票、退款与已售库存归属 |
 
 `db-admin demo` 保留历史场次，创建或复用未来演示场次和两个普通用户。
 重复运行不重置已有价格或占用状态；没有未来演示场次时创建新的未来场次。
@@ -120,7 +147,7 @@ docker compose exec postgres psql -U ticketing_admin -d ticketing
 ```
 
 psql 中用 `\dt` 列表，`\d booking_order` 查看结构，`\q` 退出。
-现在有九张业务表及 schema_migration 技术表。
+现在有十二张业务表及 schema_migration 技术表。
 数据库文件保存在 ticketing-warehouse_pg_data 命名卷中；重建容器保留数据，备份仍需单独进行。
 日常停止使用 docker compose stop；docker compose down 保留命名卷，down -v 则会删除数据卷。
 POSTGRES_* 初始化账号和库名只在首次创建数据卷时生效，之后修改 .env 不会自动修改已有管理员密码。
@@ -130,6 +157,7 @@ POSTGRES_* 初始化账号和库名只在首次创建数据卷时生效，之后
 - [五张基础表](docs/database/01_core_tables.md)
 - [场次库存与组合外键](docs/database/02_session_seat.md)
 - [订单事务、双连接并发与部署说明](docs/database/03_booking_transactions.md)
+- [模拟支付、电子票、整单退款与升级演示](docs/database/04_payment_refund.md)
 
 已在 macOS / Apple Silicon ARM64 验证。AMD64 与其他宿主系统尚未进行运行验证。
 首次拉取官方镜像遇到连接中断时，可检查 Docker Desktop 网络或代理后重试构建。

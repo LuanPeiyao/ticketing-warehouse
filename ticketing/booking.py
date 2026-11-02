@@ -173,13 +173,25 @@ class BookingService:
                 self._release(conn, order, "EXPIRED", "TIMEOUT")
             return [order["order_id"] for order in orders]
 
+    def _details(self, conn, user_id, order_id):
+        order = self._order(conn, order_id)
+        if order["user_id"] != user_id:
+            raise BookingError("订单不属于该用户")
+        order["history"] = conn.execute(
+            """SELECT from_status, to_status, reason, changed_at FROM order_status_history
+               WHERE order_id=%s ORDER BY history_id""", (order_id,),
+        ).fetchall()
+        order["payments"] = conn.execute(
+            "SELECT * FROM payment_attempt WHERE order_id=%s ORDER BY payment_id", (order_id,),
+        ).fetchall()
+        order["tickets"] = conn.execute(
+            "SELECT * FROM ticket WHERE order_id=%s ORDER BY ticket_id", (order_id,),
+        ).fetchall()
+        order["refunds"] = conn.execute(
+            "SELECT * FROM refund_attempt WHERE order_id=%s ORDER BY refund_id", (order_id,),
+        ).fetchall()
+        return order
+
     def get(self, user_id, order_id):
         with self.connect() as conn, conn.transaction():
-            order = self._order(conn, order_id)
-            if order["user_id"] != user_id:
-                raise BookingError("订单不属于该用户")
-            order["history"] = conn.execute(
-                """SELECT from_status, to_status, reason, changed_at FROM order_status_history
-                   WHERE order_id=%s ORDER BY history_id""", (order_id,),
-            ).fetchall()
-            return order
+            return self._details(conn, user_id, order_id)
