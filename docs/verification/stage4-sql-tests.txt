@@ -1,0 +1,22 @@
+SQL regression: 001_core_tables.sql
+BEGIN
+NOTICE:  PASS: 关联数据可以正常创建，不同场馆允许同名 A1 座位
+NOTICE:  PASS: 同场馆重复座位编号被拦截
+NOTICE:  PASS: 更换座位编号也不能重复创建同一位置
+NOTICE:  PASS: 邮箱大小写与首尾空格不会产生重复账号
+NOTICE:  PASS: 不合法的场次时间被拦截
+NOTICE:  PASS: 座位不能关联不存在的场馆
+NOTICE:  PASS: 有关联活动的用户不能直接删除
+NOTICE:  PASS: 更新触发器自动维护修改时间
+DO
+ROLLBACK
+SQL regression: 002_session_seat.sql
+BEGIN
+NOTICE:  PASS: 同一个物理座位在不同场次独立配置和修改价格
+NOTICE:  PASS: 其他场馆的座位不能混入本场馆库存
+NOTICE:  PASS: 修改库存场馆也不能绕过场次关联校验
+NOTICE:  PASS: 同场次同座位只能配置一条库存
+NOTICE:  PASS: 负票价被拦截
+NOTICE:  PASS: 不完整的锁座状态被数据库约束拦截
+DO
+ROLLBACK

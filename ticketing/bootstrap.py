@@ -104,8 +104,8 @@ def grant_app(conn, *, password=None):
     conn.execute("REVOKE CREATE ON SCHEMA public FROM PUBLIC")
     conn.execute("GRANT USAGE ON SCHEMA public TO ticketing_app")
     conn.execute("GRANT SELECT ON ALL TABLES IN SCHEMA public TO ticketing_app")
-    conn.execute("GRANT INSERT ON booking_order, booking_item, order_status_history TO ticketing_app")
-    conn.execute("GRANT UPDATE ON booking_order, session_seat TO ticketing_app")
+    conn.execute("GRANT INSERT ON booking_order, booking_item, order_status_history, payment_attempt, ticket, refund_attempt TO ticketing_app")
+    conn.execute("GRANT UPDATE ON booking_order, session_seat, ticket TO ticketing_app")
     conn.execute("GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ticketing_app")
 
 
