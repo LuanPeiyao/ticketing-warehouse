@@ -14,7 +14,7 @@
 无需在本机安装 Python、PostgreSQL 或 psql。
 
 ```bash
-git clone --branch codex/database-schema https://github.com/xiaoyeZh/ticketing-warehouse.git
+git clone https://github.com/xiaoyeZh/ticketing-warehouse.git
 cd ticketing-warehouse
 cp .env.example .env
 docker compose up -d --wait --wait-timeout 120 postgres
@@ -23,8 +23,7 @@ docker compose run --rm db-admin demo
 docker compose run --rm app catalog
 ```
 
-私有仓库克隆需要 GitHub 身份验证。上述克隆命令要求先将本地开发分支发布到 GitHub。
-当前实现位于 `codex/database-schema`，尚未合并 main；合并后可将克隆命令的分支改为 main。
+私有仓库克隆需要 GitHub 身份验证。`main` 提供已验证的阶段版本；新功能在独立开发分支上实现，完成验证后通过 Pull Request 合并。
 
 已有 `.env` 时保留原文件，不再次复制覆盖。新增应用密码配置见 `.env.example`；本次本地开发已自动补齐。
 `.env` 存放个人配置，不提交 Git、不进入 Docker 构建上下文。
