@@ -302,7 +302,7 @@ class APIIntegration(BookingFixture):
         self.assertIn('活动与票务',home.text)
         self.assertIn("script-src 'self'",home.headers['content-security-policy'])
         self.assertEqual(home.headers['x-content-type-options'],'nosniff')
-        for path in ('/assets/styles.css','/assets/app.js','/assets/lib.mjs'):
+        for path in ('/assets/styles.css','/assets/app.js','/assets/lib.mjs','/assets/i18n.mjs'):
             self.assertEqual(self.client.get(path).status_code,200,path)
         self.assertEqual(self.client.get('/assets/mark.svg').status_code,404)
         self.assertEqual(self.client.get('/assets/%2e%2e/auth.py').status_code,404)

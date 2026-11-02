@@ -30,6 +30,18 @@ docker compose up -d --build --wait --wait-timeout 120 api
 下单、支付和退款的请求 UUID 由页面自动生成，用户不用填写数据库编号或令牌。
 库存及订单在页面可见时周期刷新；倒计时仅用于提示，是否可以支付最终由数据库事务判定。
 
+## 简 / 繁 / English
+
+页面右上角和各个弹窗内都有语言选择器，支持简体中文、繁體中文与 English。
+切换后，导航、表单、订单状态、电子票、日期及前端提示会同步更新；已选座位和填写内容会保留。
+浏览器保存语言偏好，刷新后仍使用上次选择；禁用存储时也能在当前页面切换。
+活动名、场馆名、描述、用户名及用户填写内容保留原文，不自动翻译。
+日期格式随语言改变，时区仍为北京时间，币种仍为人民币。
+
+语言偏好使用独立的 localStorage 键 ticketing.language，不保存登录令牌或密码。
+所有词条集中在 ticketing/web/i18n.mjs，不依赖在线翻译或字体服务。
+验证记录见 [三语切换验证](../verification/web-i18n.md)。
+
 ## 登录与错误处理
 
 登录令牌只保留在当前页面内存，不存入 localStorage、sessionStorage 或 Cookie。
@@ -53,6 +65,7 @@ docker compose up -d --build --wait --wait-timeout 120 api
 | ticketing/web/index.html | 页面结构、表单和对话框 |
 | ticketing/web/styles.css | 蓝色主题、桌面及手机适配 |
 | ticketing/web/app.js | 接口调用、选座、登录、订单与交互反馈 |
+| ticketing/web/i18n.mjs | 三语词典、日期格式及语言偏好 |
 | ticketing/web/lib.mjs | 精确金额、文本转义、请求编号复用与倒计时 |
 | ticketing/api.py | 根路径页面、静态资源以及现有 API |
 | ticketing/booking.py / schemas.py | 订单展示字段，价格仍使用原快照 |
@@ -71,7 +84,7 @@ docker compose run --rm --build tests
 
 ```bash
 node --check ticketing/web/app.js
-node --test tests/js/web.test.mjs
+node --test tests/js/web.test.mjs tests/js/i18n.test.mjs
 ```
 
 Node 仅用于前端开发检查，运行页面和 Docker 部署不需要安装 Node。
