@@ -1,0 +1,9 @@
+name: ticketing-warehouse
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12.16
+  - pip
+  - pip:
+      - -r requirements.txt

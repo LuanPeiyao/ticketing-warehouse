@@ -24,5 +24,58 @@ services:
       retries: 12
       start_period: 10s
 
+
+  app:
+    image: ticketing-warehouse-python:local
+    build: .
+    profiles: [tools]
+    environment: &booking_environment
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: ${POSTGRES_DB:-ticketing}
+      PGUSER: ticketing_app
+      PGPASSWORD: ${TICKETING_APP_PASSWORD:?请在 .env 中设置 TICKETING_APP_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  db-admin:
+    image: ticketing-warehouse-python:local
+    build: .
+    profiles: [tools]
+    environment: &admin_environment
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: ${POSTGRES_DB:-ticketing}
+      PGUSER: ${POSTGRES_USER:-ticketing_admin}
+      PGPASSWORD: ${POSTGRES_PASSWORD:?请设置数据库密码}
+      TICKETING_APP_PASSWORD: ${TICKETING_APP_PASSWORD:?请设置应用数据库密码}
+    command: [init]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  tests:
+    image: ticketing-warehouse-python:local
+    build: .
+    profiles: [tools]
+    environment: *admin_environment
+    entrypoint: [python, -m, unittest]
+    command: [discover, -s, tests/python, -v]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  reservation-worker:
+    image: ticketing-warehouse-python:local
+    build: .
+    profiles: [workers]
+    environment: *booking_environment
+    command: [worker, --interval, "5"]
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   pg_data:
