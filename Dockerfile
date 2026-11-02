@@ -7,6 +7,7 @@ COPY ticketing ./ticketing
 COPY migrations ./migrations
 COPY seeds ./seeds
 COPY tests ./tests
+COPY scripts ./scripts
 USER 10001:10001
 ENTRYPOINT ["python", "-m", "ticketing"]
 CMD ["--help"]
