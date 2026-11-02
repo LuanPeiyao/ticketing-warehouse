@@ -1,5 +1,7 @@
 # 第一阶段：五张基础表
 
+> 本章记录 001 版本的五张基础表；当前已扩展到九张业务表，订单阶段见 [第三阶段](03_booking_transactions.md)。
+
 对应迁移：`migrations/001_core_tables.sql`。
 
 ## 关系与职责

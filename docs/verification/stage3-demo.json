@@ -1,0 +1,121 @@
+{
+  "verified_on": "2026-11-02",
+  "python_tests": 19,
+  "legacy_sql_cases": 14,
+  "business_database_unchanged_by_tests": true,
+  "test_databases_remaining": 0,
+  "legacy_session_ids_preserved": [
+    5,
+    6
+  ],
+  "demo_user_id": 11,
+  "demo_session_id": 13,
+  "demo_inventory_ids": [
+    19,
+    20
+  ],
+  "cancelled_demo_order": 1,
+  "expired_demo_order": 2,
+  "pending_snapshot": [
+    {
+      "session_seat_id": 19,
+      "session_id": 13,
+      "seat_code": "A1",
+      "title": "订单事务演示音乐会",
+      "start_beijing": "2026-11-09 19:00:00",
+      "price": "100.00",
+      "status": "LOCKED",
+      "locked_until": "2026-11-02 09:47:21.876903+00:00"
+    },
+    {
+      "session_seat_id": 20,
+      "session_id": 13,
+      "seat_code": "A2",
+      "title": "订单事务演示音乐会",
+      "start_beijing": "2026-11-09 19:00:00",
+      "price": "120.00",
+      "status": "LOCKED",
+      "locked_until": "2026-11-02 09:47:21.876903+00:00"
+    }
+  ],
+  "cancelled_order": {
+    "order_id": 1,
+    "order_no": "O0216c7fe5b024fd5bdd4885321057833",
+    "user_id": 11,
+    "session_id": 13,
+    "request_id": "84d458d8-9913-4376-b920-f1d99cd1df10",
+    "total_amount": "220.00",
+    "status": "CANCELLED",
+    "expires_at": "2026-11-02 09:47:21.876903+00:00",
+    "created_at": "2026-11-02 09:37:21.875954+00:00",
+    "updated_at": "2026-11-02 09:37:26.006946+00:00",
+    "items": [
+      {
+        "item_id": 1,
+        "session_seat_id": 19,
+        "unit_price": "100.00"
+      },
+      {
+        "item_id": 2,
+        "session_seat_id": 20,
+        "unit_price": "120.00"
+      }
+    ]
+  },
+  "expired_order": {
+    "order_id": 2,
+    "order_no": "O8eca2ec2b7e14a38a8ffd789c0850da2",
+    "user_id": 11,
+    "session_id": 13,
+    "request_id": "97df8b0e-9c01-4822-ac2e-a9e1001cd403",
+    "total_amount": "100.00",
+    "status": "EXPIRED",
+    "expires_at": "2026-11-02 09:37:29.385546+00:00",
+    "created_at": "2026-11-02 09:37:27.384812+00:00",
+    "updated_at": "2026-11-02 09:37:33.738478+00:00",
+    "items": [
+      {
+        "item_id": 3,
+        "session_seat_id": 19,
+        "unit_price": "100.00"
+      }
+    ],
+    "history": [
+      {
+        "from_status": null,
+        "to_status": "PENDING",
+        "reason": "CREATED",
+        "changed_at": "2026-11-02 09:37:27.386685+00:00"
+      },
+      {
+        "from_status": "PENDING",
+        "to_status": "EXPIRED",
+        "reason": "TIMEOUT",
+        "changed_at": "2026-11-02 09:37:33.739485+00:00"
+      }
+    ]
+  },
+  "final_inventory": [
+    {
+      "session_seat_id": 19,
+      "session_id": 13,
+      "seat_code": "A1",
+      "title": "订单事务演示音乐会",
+      "start_beijing": "2026-11-09 19:00:00",
+      "price": "100.00",
+      "status": "AVAILABLE",
+      "locked_until": null
+    },
+    {
+      "session_seat_id": 20,
+      "session_id": 13,
+      "seat_code": "A2",
+      "title": "订单事务演示音乐会",
+      "start_beijing": "2026-11-09 19:00:00",
+      "price": "120.00",
+      "status": "AVAILABLE",
+      "locked_until": null
+    }
+  ],
+  "row_counts": "app_user|4\nvenue|2\nseat|4\nactivity|2\nactivity_session|4\nsession_seat|8\nbooking_order|2\nbooking_item|3\norder_status_history|4"
+}

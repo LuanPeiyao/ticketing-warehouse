@@ -67,11 +67,11 @@ BEGIN
     END;
     BEGIN
         UPDATE session_seat SET status = 'LOCKED' WHERE session_id = v_session_a AND seat_id = v_seat_a;
-        RAISE EXCEPTION 'FAIL: 尚未实现订单关联就允许锁座';
+        RAISE EXCEPTION 'FAIL: 缺少订单与截止时间仍允许锁座';
     EXCEPTION WHEN check_violation THEN
         GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
-        IF v_constraint <> 'ck_session_seat_status' THEN RAISE; END IF;
-        RAISE NOTICE 'PASS: 订单逻辑就绪前仅允许 AVAILABLE 库存';
+        IF v_constraint NOT IN ('ck_session_seat_status', 'ck_inventory_lock_shape') THEN RAISE; END IF;
+        RAISE NOTICE 'PASS: 不完整的锁座状态被数据库约束拦截';
     END;
 END;
 $$;

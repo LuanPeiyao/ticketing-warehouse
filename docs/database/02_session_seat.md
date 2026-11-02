@@ -1,5 +1,7 @@
 # 第二阶段：场次座位库存 session_seat
 
+> 本章记录 002 阶段；003 已加入 LOCKED、锁座订单与截止时间，最新实现见 [第三阶段](03_booking_transactions.md)。
+
 迁移文件：`migrations/002_session_seat.sql`，在 001 之后执行一次。
 
 ## 一个物理座位，多份独立库存
