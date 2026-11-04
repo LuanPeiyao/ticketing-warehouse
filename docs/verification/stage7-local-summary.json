@@ -1,0 +1,12 @@
+{
+  "project": "ticketing-verify-3200280d7a414b90",
+  "platform": "macOS-15.7.9-arm64-arm-64bit",
+  "started_at": "2026-11-04T07:26:56.303242+00:00",
+  "status": "passed",
+  "migration_count": 5,
+  "seed_idempotent": true,
+  "http_payment_refund_resale": "passed",
+  "worker_expiration": "passed",
+  "cleanup_passed": true,
+  "finished_at": "2026-11-04T07:27:55.838564+00:00"
+}

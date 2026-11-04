@@ -176,6 +176,23 @@ docker compose run --rm --build tests
 并发证据包含数据库后端编号、Lock 等待和阻塞者编号。
 验证日志和本地演示结果保存在 [docs/verification](docs/verification/)。
 
+前端开发检查（需要 Node.js 22+，运行网页不需要）：
+
+```bash
+node --check ticketing/web/app.js
+node --test tests/js/web.test.mjs tests/js/i18n.test.mjs
+```
+
+每次推送或提交 PR，GitHub Actions 自动运行前端检查与 Docker / PostgreSQL 部署验收。
+在本机用全新配置和数据卷重现部署验收（另需 Python 3.10+，仅使用标准库）：
+
+```bash
+python3 scripts/verify_deployment.py
+```
+
+验收使用独立项目、随机端口与临时数据卷，结束后清理本次资源，报告写入 `artifacts/deployment/`。
+执行范围、日志和 CI 使用方法见 [自动化测试与部署验收](docs/development/07_ci_deployment.md)。
+
 早期 SQL 约束脚本也可通过管理员 psql 在开发环境执行，样例在末尾回滚：
 
 ```bash
@@ -208,8 +225,9 @@ POSTGRES_* 初始化账号和库名只在首次创建数据卷时生效，之后
 - [模拟支付、电子票、整单退款与升级演示](docs/database/04_payment_refund.md)
 - [FastAPI 接口、登录、权限与 HTTP 演示](docs/api/05_fastapi.md)
 - [轻量前端、网页购票与响应式布局](docs/web/06_web.md)
+- [GitHub Actions、全新部署验收与开发顺序](docs/development/07_ci_deployment.md)
 
-已在 macOS / Apple Silicon ARM64 验证。AMD64 与其他宿主系统尚未进行运行验证。
+已在 macOS / Apple Silicon ARM64 和 GitHub Actions Ubuntu 24.04 / AMD64 验证。其他宿主系统尚未进行运行验证。
 首次拉取官方镜像遇到连接中断时，可检查 Docker Desktop 网络或代理后重试构建。
 
 ## Anaconda 本地开发

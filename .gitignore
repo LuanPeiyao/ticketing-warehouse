@@ -227,3 +227,4 @@ __marimo__/
 !.env.example
 backups/
 data/generated/
+artifacts/
