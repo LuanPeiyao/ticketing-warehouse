@@ -227,7 +227,7 @@ POSTGRES_* 初始化账号和库名只在首次创建数据卷时生效，之后
 - [轻量前端、网页购票与响应式布局](docs/web/06_web.md)
 - [GitHub Actions、全新部署验收与开发顺序](docs/development/07_ci_deployment.md)
 
-已在 macOS / Apple Silicon ARM64 验证。AMD64 与其他宿主系统尚未进行运行验证。
+已在 macOS / Apple Silicon ARM64 和 GitHub Actions Ubuntu 24.04 / AMD64 验证。其他宿主系统尚未进行运行验证。
 首次拉取官方镜像遇到连接中断时，可检查 Docker Desktop 网络或代理后重试构建。
 
 ## Anaconda 本地开发

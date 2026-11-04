@@ -18,6 +18,15 @@ macOS 15.7.9 / Apple Silicon ARM64，Docker Compose v2.32.4-desktop.1。
 - Node.js v22.14.0：语法检查通过，15 项前端与三语测试全部通过。
 
 本机记录：[结果摘要](stage7-local-summary.json)、[Python 测试](stage7-local-tests.txt)。
-GitHub Linux CI 的运行结果以 PR Checks / Actions 页实际状态为准。
+## GitHub Linux 环境
+
+提交 `e4270dc` 的 push 与 PR 两组检查均通过，PR #4 显示 4 / 4 checks OK。
+GitHub Ubuntu 24.04 / AMD64 的部署任务耗时 1 分 38 秒，实际内核平台为 `Linux-7.0.0-1017-azure-x86_64-with-glibc2.39`。
+结果为 passed，迁移数 5、样例可重复、HTTP 支付退款重售、后台过期及临时资源清理全部通过；26 个报告文件成功上传。
+
+- [首次完整 CI](https://github.com/xiaoyeZh/ticketing-warehouse/actions/runs/41792520164)
+- [PR 检查](https://github.com/xiaoyeZh/ticketing-warehouse/pull/4/checks)
+
+报告 artifact 保留七天；运行状态和日志可继续在 Actions 页查看。
 
 本次自动化不覆盖新的浏览器交互测试，实际网页交互证据沿用 stage6 与 web-i18n 记录。
