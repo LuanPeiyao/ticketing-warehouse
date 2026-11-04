@@ -18,6 +18,11 @@ class RequestConflict(BookingError):
     pass
 
 
+ORDER_VIEW_SQL = """SELECT o.*,a.title AS activity_title,s.start_time AS session_start_time,v.name AS venue_name
+    FROM booking_order o JOIN activity_session s ON s.session_id=o.session_id
+    JOIN activity a ON a.activity_id=s.activity_id JOIN venue v ON v.venue_id=s.venue_id"""
+
+
 class BookingService:
     def __init__(self, connect_factory=connect, *, hold_seconds=600):
         if not 1 <= hold_seconds <= 600:
@@ -36,12 +41,13 @@ class BookingService:
 
     @staticmethod
     def _order(conn, order_id):
-        order = conn.execute("SELECT * FROM booking_order WHERE order_id=%s FOR SHARE", (order_id,)).fetchone()
+        order = conn.execute(ORDER_VIEW_SQL + " WHERE o.order_id=%s FOR SHARE OF o", (order_id,)).fetchone()
         if not order:
             raise BookingError("订单不存在")
         order["items"] = conn.execute(
-            """SELECT item_id, session_seat_id, unit_price FROM booking_item
-               WHERE order_id=%s ORDER BY session_seat_id""", (order_id,),
+            """SELECT i.item_id,i.session_seat_id,i.unit_price,p.seat_code FROM booking_item i
+               JOIN session_seat ss ON ss.session_seat_id=i.session_seat_id JOIN seat p ON p.seat_id=ss.seat_id
+               WHERE i.order_id=%s ORDER BY i.session_seat_id""", (order_id,),
         ).fetchall()
         return order
 

@@ -1,0 +1,13 @@
+ Container ticketing-warehouse-postgres-1  Running
+{
+  "order_ids": [
+    7,
+    8
+  ],
+  "final_status": "REFUNDED",
+  "inventory_status": [
+    "AVAILABLE",
+    "AVAILABLE"
+  ],
+  "note": "完整 HTTP 演示完成，两个订单均已退款，两个会话均已退出"
+}

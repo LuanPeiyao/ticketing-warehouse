@@ -1,0 +1,662 @@
+{
+  "session_id": 13,
+  "inventory_ids": [
+    19,
+    20
+  ],
+  "reserved": {
+    "order_id": 5,
+    "order_no": "Oab75d865f49449038159f8de2df53a3e",
+    "user_id": 16,
+    "session_id": 13,
+    "total_amount": "220.00",
+    "status": "PENDING",
+    "expires_at": "2026-11-02T11:10:01.275398Z",
+    "created_at": "2026-11-02T11:00:01.274380Z",
+    "updated_at": "2026-11-02T11:00:01.275568Z",
+    "paid_at": null,
+    "refunded_at": null,
+    "request_id": "1391318d-14c0-451a-8aef-75a667111386",
+    "items": [
+      {
+        "item_id": 8,
+        "session_seat_id": 19,
+        "unit_price": "100.00"
+      },
+      {
+        "item_id": 9,
+        "session_seat_id": 20,
+        "unit_price": "120.00"
+      }
+    ],
+    "history": [
+      {
+        "from_status": null,
+        "to_status": "PENDING",
+        "reason": "CREATED",
+        "changed_at": "2026-11-02T11:00:01.277650Z"
+      }
+    ],
+    "payments": [],
+    "tickets": [],
+    "refunds": []
+  },
+  "failed_payment": {
+    "payment": {
+      "payment_id": 4,
+      "payment_no": "P448964efd02b45978187050596c3bedc",
+      "order_id": 5,
+      "request_id": "e8285893-41cb-495b-9d53-e92f1b25fede",
+      "amount": "220.00",
+      "provider": "SIMULATED",
+      "status": "FAILED",
+      "created_at": "2026-11-02T11:00:01.305997Z"
+    },
+    "order": {
+      "order_id": 5,
+      "order_no": "Oab75d865f49449038159f8de2df53a3e",
+      "user_id": 16,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "PENDING",
+      "expires_at": "2026-11-02T11:10:01.275398Z",
+      "created_at": "2026-11-02T11:00:01.274380Z",
+      "updated_at": "2026-11-02T11:00:01.275568Z",
+      "paid_at": null,
+      "refunded_at": null,
+      "request_id": "1391318d-14c0-451a-8aef-75a667111386",
+      "items": [
+        {
+          "item_id": 8,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 9,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.277650Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 4,
+          "payment_no": "P448964efd02b45978187050596c3bedc",
+          "order_id": 5,
+          "request_id": "e8285893-41cb-495b-9d53-e92f1b25fede",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "FAILED",
+          "created_at": "2026-11-02T11:00:01.305997Z"
+        }
+      ],
+      "tickets": [],
+      "refunds": []
+    }
+  },
+  "paid": {
+    "payment": {
+      "payment_id": 5,
+      "payment_no": "P0c056adfcc9245e4900ba86da85f0e10",
+      "order_id": 5,
+      "request_id": "efeea966-aa14-417f-8b8a-75b73c93d307",
+      "amount": "220.00",
+      "provider": "SIMULATED",
+      "status": "SUCCEEDED",
+      "created_at": "2026-11-02T11:00:01.321524Z"
+    },
+    "order": {
+      "order_id": 5,
+      "order_no": "Oab75d865f49449038159f8de2df53a3e",
+      "user_id": 16,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "PAID",
+      "expires_at": "2026-11-02T11:10:01.275398Z",
+      "created_at": "2026-11-02T11:00:01.274380Z",
+      "updated_at": "2026-11-02T11:00:01.323012Z",
+      "paid_at": "2026-11-02T11:00:01.323022Z",
+      "refunded_at": null,
+      "request_id": "1391318d-14c0-451a-8aef-75a667111386",
+      "items": [
+        {
+          "item_id": 8,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 9,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.277650Z"
+        },
+        {
+          "from_status": "PENDING",
+          "to_status": "PAID",
+          "reason": "SIMULATED_PAYMENT",
+          "changed_at": "2026-11-02T11:00:01.323301Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 4,
+          "payment_no": "P448964efd02b45978187050596c3bedc",
+          "order_id": 5,
+          "request_id": "e8285893-41cb-495b-9d53-e92f1b25fede",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "FAILED",
+          "created_at": "2026-11-02T11:00:01.305997Z"
+        },
+        {
+          "payment_id": 5,
+          "payment_no": "P0c056adfcc9245e4900ba86da85f0e10",
+          "order_id": 5,
+          "request_id": "efeea966-aa14-417f-8b8a-75b73c93d307",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.321524Z"
+        }
+      ],
+      "tickets": [
+        {
+          "ticket_id": 5,
+          "ticket_no": "9ed95a44-6e7d-47d6-93f2-46300cb3ba79",
+          "item_id": 8,
+          "order_id": 5,
+          "session_seat_id": 19,
+          "status": "VALID",
+          "issued_at": "2026-11-02T11:00:01.322533Z",
+          "refunded_at": null
+        },
+        {
+          "ticket_id": 6,
+          "ticket_no": "adde2856-0703-4a87-9c8c-f33f9275173f",
+          "item_id": 9,
+          "order_id": 5,
+          "session_seat_id": 20,
+          "status": "VALID",
+          "issued_at": "2026-11-02T11:00:01.322848Z",
+          "refunded_at": null
+        }
+      ],
+      "refunds": []
+    }
+  },
+  "refunded": {
+    "refund": {
+      "refund_id": 4,
+      "refund_no": "Rc7ea0acda554428cab9dee69b105bbba",
+      "payment_id": 5,
+      "order_id": 5,
+      "request_id": "3f87245f-5124-4a27-a30a-f77d462e9202",
+      "amount": "220.00",
+      "reason": "HTTP 完整演示退款",
+      "status": "SUCCEEDED",
+      "created_at": "2026-11-02T11:00:01.355384Z"
+    },
+    "order": {
+      "order_id": 5,
+      "order_no": "Oab75d865f49449038159f8de2df53a3e",
+      "user_id": 16,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "REFUNDED",
+      "expires_at": "2026-11-02T11:10:01.275398Z",
+      "created_at": "2026-11-02T11:00:01.274380Z",
+      "updated_at": "2026-11-02T11:00:01.356380Z",
+      "paid_at": "2026-11-02T11:00:01.323022Z",
+      "refunded_at": "2026-11-02T11:00:01.354856Z",
+      "request_id": "1391318d-14c0-451a-8aef-75a667111386",
+      "items": [
+        {
+          "item_id": 8,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 9,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.277650Z"
+        },
+        {
+          "from_status": "PENDING",
+          "to_status": "PAID",
+          "reason": "SIMULATED_PAYMENT",
+          "changed_at": "2026-11-02T11:00:01.323301Z"
+        },
+        {
+          "from_status": "PAID",
+          "to_status": "REFUNDED",
+          "reason": "SIMULATED_REFUND",
+          "changed_at": "2026-11-02T11:00:01.356645Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 4,
+          "payment_no": "P448964efd02b45978187050596c3bedc",
+          "order_id": 5,
+          "request_id": "e8285893-41cb-495b-9d53-e92f1b25fede",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "FAILED",
+          "created_at": "2026-11-02T11:00:01.305997Z"
+        },
+        {
+          "payment_id": 5,
+          "payment_no": "P0c056adfcc9245e4900ba86da85f0e10",
+          "order_id": 5,
+          "request_id": "efeea966-aa14-417f-8b8a-75b73c93d307",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.321524Z"
+        }
+      ],
+      "tickets": [
+        {
+          "ticket_id": 5,
+          "ticket_no": "9ed95a44-6e7d-47d6-93f2-46300cb3ba79",
+          "item_id": 8,
+          "order_id": 5,
+          "session_seat_id": 19,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.322533Z",
+          "refunded_at": "2026-11-02T11:00:01.354856Z"
+        },
+        {
+          "ticket_id": 6,
+          "ticket_no": "adde2856-0703-4a87-9c8c-f33f9275173f",
+          "item_id": 9,
+          "order_id": 5,
+          "session_seat_id": 20,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.322848Z",
+          "refunded_at": "2026-11-02T11:00:01.354856Z"
+        }
+      ],
+      "refunds": [
+        {
+          "refund_id": 4,
+          "refund_no": "Rc7ea0acda554428cab9dee69b105bbba",
+          "payment_id": 5,
+          "order_id": 5,
+          "request_id": "3f87245f-5124-4a27-a30a-f77d462e9202",
+          "amount": "220.00",
+          "reason": "HTTP 完整演示退款",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.355384Z"
+        }
+      ]
+    }
+  },
+  "resold": {
+    "payment": {
+      "payment_id": 6,
+      "payment_no": "Pcdb74255e06c4c2a9caa2421dc8e9e86",
+      "order_id": 6,
+      "request_id": "76e5b501-186b-4db4-97c8-4c1546ebfbd6",
+      "amount": "220.00",
+      "provider": "SIMULATED",
+      "status": "SUCCEEDED",
+      "created_at": "2026-11-02T11:00:01.475141Z"
+    },
+    "order": {
+      "order_id": 6,
+      "order_no": "Of3ab6671d8654fba8356fc26c1dea9f2",
+      "user_id": 17,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "PAID",
+      "expires_at": "2026-11-02T11:10:01.449931Z",
+      "created_at": "2026-11-02T11:00:01.449203Z",
+      "updated_at": "2026-11-02T11:00:01.476527Z",
+      "paid_at": "2026-11-02T11:00:01.476535Z",
+      "refunded_at": null,
+      "request_id": "ae39711b-3590-4754-ba3f-a82ef1b2d2ed",
+      "items": [
+        {
+          "item_id": 10,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 11,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.451143Z"
+        },
+        {
+          "from_status": "PENDING",
+          "to_status": "PAID",
+          "reason": "SIMULATED_PAYMENT",
+          "changed_at": "2026-11-02T11:00:01.476761Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 6,
+          "payment_no": "Pcdb74255e06c4c2a9caa2421dc8e9e86",
+          "order_id": 6,
+          "request_id": "76e5b501-186b-4db4-97c8-4c1546ebfbd6",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.475141Z"
+        }
+      ],
+      "tickets": [
+        {
+          "ticket_id": 7,
+          "ticket_no": "218337c6-a713-4f59-8c77-4c9aa26d43b8",
+          "item_id": 10,
+          "order_id": 6,
+          "session_seat_id": 19,
+          "status": "VALID",
+          "issued_at": "2026-11-02T11:00:01.476128Z",
+          "refunded_at": null
+        },
+        {
+          "ticket_id": 8,
+          "ticket_no": "584b4127-02b1-4953-935f-02ad937fbda9",
+          "item_id": 11,
+          "order_id": 6,
+          "session_seat_id": 20,
+          "status": "VALID",
+          "issued_at": "2026-11-02T11:00:01.476355Z",
+          "refunded_at": null
+        }
+      ],
+      "refunds": []
+    }
+  },
+  "old_refund_replay": {
+    "refund": {
+      "refund_id": 4,
+      "refund_no": "Rc7ea0acda554428cab9dee69b105bbba",
+      "payment_id": 5,
+      "order_id": 5,
+      "request_id": "3f87245f-5124-4a27-a30a-f77d462e9202",
+      "amount": "220.00",
+      "reason": "HTTP 完整演示退款",
+      "status": "SUCCEEDED",
+      "created_at": "2026-11-02T11:00:01.355384Z"
+    },
+    "order": {
+      "order_id": 5,
+      "order_no": "Oab75d865f49449038159f8de2df53a3e",
+      "user_id": 16,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "REFUNDED",
+      "expires_at": "2026-11-02T11:10:01.275398Z",
+      "created_at": "2026-11-02T11:00:01.274380Z",
+      "updated_at": "2026-11-02T11:00:01.356380Z",
+      "paid_at": "2026-11-02T11:00:01.323022Z",
+      "refunded_at": "2026-11-02T11:00:01.354856Z",
+      "request_id": "1391318d-14c0-451a-8aef-75a667111386",
+      "items": [
+        {
+          "item_id": 8,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 9,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.277650Z"
+        },
+        {
+          "from_status": "PENDING",
+          "to_status": "PAID",
+          "reason": "SIMULATED_PAYMENT",
+          "changed_at": "2026-11-02T11:00:01.323301Z"
+        },
+        {
+          "from_status": "PAID",
+          "to_status": "REFUNDED",
+          "reason": "SIMULATED_REFUND",
+          "changed_at": "2026-11-02T11:00:01.356645Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 4,
+          "payment_no": "P448964efd02b45978187050596c3bedc",
+          "order_id": 5,
+          "request_id": "e8285893-41cb-495b-9d53-e92f1b25fede",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "FAILED",
+          "created_at": "2026-11-02T11:00:01.305997Z"
+        },
+        {
+          "payment_id": 5,
+          "payment_no": "P0c056adfcc9245e4900ba86da85f0e10",
+          "order_id": 5,
+          "request_id": "efeea966-aa14-417f-8b8a-75b73c93d307",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.321524Z"
+        }
+      ],
+      "tickets": [
+        {
+          "ticket_id": 5,
+          "ticket_no": "9ed95a44-6e7d-47d6-93f2-46300cb3ba79",
+          "item_id": 8,
+          "order_id": 5,
+          "session_seat_id": 19,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.322533Z",
+          "refunded_at": "2026-11-02T11:00:01.354856Z"
+        },
+        {
+          "ticket_id": 6,
+          "ticket_no": "adde2856-0703-4a87-9c8c-f33f9275173f",
+          "item_id": 9,
+          "order_id": 5,
+          "session_seat_id": 20,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.322848Z",
+          "refunded_at": "2026-11-02T11:00:01.354856Z"
+        }
+      ],
+      "refunds": [
+        {
+          "refund_id": 4,
+          "refund_no": "Rc7ea0acda554428cab9dee69b105bbba",
+          "payment_id": 5,
+          "order_id": 5,
+          "request_id": "3f87245f-5124-4a27-a30a-f77d462e9202",
+          "amount": "220.00",
+          "reason": "HTTP 完整演示退款",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.355384Z"
+        }
+      ]
+    }
+  },
+  "second_refund": {
+    "refund": {
+      "refund_id": 5,
+      "refund_no": "R5c4d99f18f704287af24c7def38647b8",
+      "payment_id": 6,
+      "order_id": 6,
+      "request_id": "b559cd49-f73b-4b5c-8bb1-cc02b7f34cab",
+      "amount": "220.00",
+      "reason": "HTTP 演示结束释放座位",
+      "status": "SUCCEEDED",
+      "created_at": "2026-11-02T11:00:01.516537Z"
+    },
+    "order": {
+      "order_id": 6,
+      "order_no": "Of3ab6671d8654fba8356fc26c1dea9f2",
+      "user_id": 17,
+      "session_id": 13,
+      "total_amount": "220.00",
+      "status": "REFUNDED",
+      "expires_at": "2026-11-02T11:10:01.449931Z",
+      "created_at": "2026-11-02T11:00:01.449203Z",
+      "updated_at": "2026-11-02T11:00:01.517363Z",
+      "paid_at": "2026-11-02T11:00:01.476535Z",
+      "refunded_at": "2026-11-02T11:00:01.515968Z",
+      "request_id": "ae39711b-3590-4754-ba3f-a82ef1b2d2ed",
+      "items": [
+        {
+          "item_id": 10,
+          "session_seat_id": 19,
+          "unit_price": "100.00"
+        },
+        {
+          "item_id": 11,
+          "session_seat_id": 20,
+          "unit_price": "120.00"
+        }
+      ],
+      "history": [
+        {
+          "from_status": null,
+          "to_status": "PENDING",
+          "reason": "CREATED",
+          "changed_at": "2026-11-02T11:00:01.451143Z"
+        },
+        {
+          "from_status": "PENDING",
+          "to_status": "PAID",
+          "reason": "SIMULATED_PAYMENT",
+          "changed_at": "2026-11-02T11:00:01.476761Z"
+        },
+        {
+          "from_status": "PAID",
+          "to_status": "REFUNDED",
+          "reason": "SIMULATED_REFUND",
+          "changed_at": "2026-11-02T11:00:01.517571Z"
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": 6,
+          "payment_no": "Pcdb74255e06c4c2a9caa2421dc8e9e86",
+          "order_id": 6,
+          "request_id": "76e5b501-186b-4db4-97c8-4c1546ebfbd6",
+          "amount": "220.00",
+          "provider": "SIMULATED",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.475141Z"
+        }
+      ],
+      "tickets": [
+        {
+          "ticket_id": 7,
+          "ticket_no": "218337c6-a713-4f59-8c77-4c9aa26d43b8",
+          "item_id": 10,
+          "order_id": 6,
+          "session_seat_id": 19,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.476128Z",
+          "refunded_at": "2026-11-02T11:00:01.515968Z"
+        },
+        {
+          "ticket_id": 8,
+          "ticket_no": "584b4127-02b1-4953-935f-02ad937fbda9",
+          "item_id": 11,
+          "order_id": 6,
+          "session_seat_id": 20,
+          "status": "REFUNDED",
+          "issued_at": "2026-11-02T11:00:01.476355Z",
+          "refunded_at": "2026-11-02T11:00:01.515968Z"
+        }
+      ],
+      "refunds": [
+        {
+          "refund_id": 5,
+          "refund_no": "R5c4d99f18f704287af24c7def38647b8",
+          "payment_id": 6,
+          "order_id": 6,
+          "request_id": "b559cd49-f73b-4b5c-8bb1-cc02b7f34cab",
+          "amount": "220.00",
+          "reason": "HTTP 演示结束释放座位",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-02T11:00:01.516537Z"
+        }
+      ]
+    }
+  },
+  "final_inventory": [
+    {
+      "session_seat_id": 19,
+      "seat_code": "A1",
+      "row_label": "A",
+      "seat_number": 1,
+      "price": "100.00",
+      "status": "AVAILABLE",
+      "locked_until": null
+    },
+    {
+      "session_seat_id": 20,
+      "seat_code": "A2",
+      "row_label": "A",
+      "seat_number": 2,
+      "price": "120.00",
+      "status": "AVAILABLE",
+      "locked_until": null
+    }
+  ],
+  "users": [
+    {
+      "user_id": 16,
+      "email": "api-demo-26cb013af1394e92805f484d62f9e2e7@example.com",
+      "display_name": "API 演示用户 A",
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": 17,
+      "email": "api-demo-ef910d23ce9943348b5b490572109023@example.com",
+      "display_name": "API 演示用户 B",
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  ]
+}

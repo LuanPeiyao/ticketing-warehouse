@@ -28,7 +28,7 @@ class BookingFixture(unittest.TestCase):
         cls.addClassCleanup(cleanup)
         with connect(dbname=cls.database) as admin:
             migrate(admin)
-            grant_app(admin)
+            grant_app(admin, password=cls.app_password)
 
     def admin(self):
         return connect(dbname=self.database)
