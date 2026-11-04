@@ -26,7 +26,7 @@ services:
 
 
   app:
-    image: ticketing-warehouse-python:local
+    image: ${TICKETING_IMAGE:-ticketing-warehouse-python:local}
     build: .
     profiles: [tools]
     environment: &booking_environment
@@ -40,7 +40,7 @@ services:
         condition: service_healthy
 
   api:
-    image: ticketing-warehouse-python:local
+    image: ${TICKETING_IMAGE:-ticketing-warehouse-python:local}
     build: .
     init: true
     restart: unless-stopped
@@ -60,7 +60,7 @@ services:
       start_period: 10s
 
   db-admin:
-    image: ticketing-warehouse-python:local
+    image: ${TICKETING_IMAGE:-ticketing-warehouse-python:local}
     build: .
     profiles: [tools]
     environment: &admin_environment
@@ -76,7 +76,7 @@ services:
         condition: service_healthy
 
   tests:
-    image: ticketing-warehouse-python:local
+    image: ${TICKETING_IMAGE:-ticketing-warehouse-python:local}
     build: .
     profiles: [tools]
     environment: *admin_environment
@@ -87,7 +87,7 @@ services:
         condition: service_healthy
 
   reservation-worker:
-    image: ticketing-warehouse-python:local
+    image: ${TICKETING_IMAGE:-ticketing-warehouse-python:local}
     build: .
     profiles: [workers]
     environment: *booking_environment
