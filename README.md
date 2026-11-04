@@ -14,7 +14,7 @@
 无需在本机安装 Python、PostgreSQL 或 psql。
 
 ```bash
-git clone --branch codex/web https://github.com/xiaoyeZh/ticketing-warehouse.git
+git clone https://github.com/xiaoyeZh/ticketing-warehouse.git
 cd ticketing-warehouse
 cp .env.example .env
 docker compose up -d --wait --wait-timeout 120 postgres
@@ -23,7 +23,7 @@ docker compose run --rm db-admin demo
 docker compose --profile workers up -d --wait --wait-timeout 120 api reservation-worker
 ```
 
-私有仓库克隆需要 GitHub 身份验证。轻量前端当前位于 `codex/web`，基于已完成的 `codex/api` 创建；推送后可使用上述克隆命令。已有本地仓库切换到该分支。`main` 保留已验证的上一阶段版本。
+私有仓库克隆需要 GitHub 身份验证。`main` 包含当前已验证的 API、轻量前端与简 / 繁 / EN 语言切换功能。
 
 启动后打开 http://127.0.0.1:8000/，通过页面注册登录、选场次和座位、下单、模拟支付、查看电子票及退款。
 网页操作见 [前端使用说明](docs/web/06_web.md)。原有接口文档位于 http://127.0.0.1:8000/docs。

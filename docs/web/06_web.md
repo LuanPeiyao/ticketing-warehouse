@@ -71,8 +71,7 @@ docker compose up -d --build --wait --wait-timeout 120 api
 | ticketing/booking.py / schemas.py | 订单展示字段，价格仍使用原快照 |
 
 没有新增数据库迁移，也没有修改旧迁移。静态文件在 Python 包目录内，会随现有 Dockerfile 的 COPY 一并进入镜像。
-当前 `codex/web` 基于已完成的 `codex/api` 提交创建，包含尚未合入 main 的 API 功能。
-后续合并时需保留这条依赖关系，可先合并 API，再合并前端，或审查整个前端分支中的累计变更。
+API、轻量前端与三语切换一并合入 `main`，首次部署使用 README 中的默认克隆命令即可。
 
 ## 验证
 
